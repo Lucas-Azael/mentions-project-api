@@ -1,10 +1,19 @@
 const express = require('express');
 const mongoose = require('mongoose');
+
+const Mentions = require('./models/mentions');
+
+
 require('dotenv').config();
+
 
 // App
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+
+//Banco de Dados
 mongoose.connect(process.env.DATABASE_CONNECTION_STRING, {
     useUnifiedTopology: true,
     useFindAndModify: true,
@@ -32,10 +41,13 @@ process.on('SIGINT', () => {
         process.exit(0);
     });
 });
-//Carregando rotas do arquivos index-routes
-//E colocando como primeira rota: '/'
+
+//Carregando rotas
 const indexRoutes = require('./routes/index-routes');
 app.use('/', indexRoutes);
+
+const mentionsRoutes = require('./routes/mentions-routes');
+app.use('/mentions', mentionsRoutes);
 
 module.exports = app;
 

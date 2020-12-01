@@ -21,6 +21,7 @@ function normalizePort(val) {
 const port = normalizePort(process.env.PORT || 3000);
 app.set('port', port);
 
+//Tratamento de Error no serviço
 function onError(error) {
     if(error.syscall !== 'listen') {
         throw error;
@@ -42,6 +43,7 @@ function onError(error) {
     }
 }
 
+//Escutando serviço
 function onListening() {
     const addr = server.address();
     const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
